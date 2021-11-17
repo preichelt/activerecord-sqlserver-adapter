@@ -16,7 +16,7 @@ module ActiveRecord
             raise ActiveRecord::ReadOnlyError, "Write query attempted while in readonly mode: #{sql}"
           end
 
-          materialize_transactions
+          # materialize_transactions
 
           if id_insert_table_name = query_requires_identity_insert?(sql)
             with_identity_insert_enabled(id_insert_table_name) { do_execute(sql, name) }
@@ -30,7 +30,7 @@ module ActiveRecord
             raise ActiveRecord::ReadOnlyError, "Write query attempted while in readonly mode: #{sql}"
           end
 
-          materialize_transactions
+          # materialize_transactions
 
           sp_executesql(sql, name, binds, prepare: prepare)
         end
@@ -153,7 +153,7 @@ module ActiveRecord
         # === SQLServer Specific ======================================== #
 
         def execute_procedure(proc_name, *variables)
-          materialize_transactions
+          # materialize_transactions
 
           vars = if variables.any? && variables.first.is_a?(Hash)
                    variables.first.map { |k, v| "@#{k} = #{quote(v)}" }
@@ -290,7 +290,7 @@ module ActiveRecord
         # === SQLServer Specific (Executing) ============================ #
 
         def do_execute(sql, name = "SQL")
-          materialize_transactions
+          # materialize_transactions
 
           log(sql, name) { raw_connection_do(sql) }
         end
